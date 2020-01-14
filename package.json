@@ -6,6 +6,15 @@
     "author": "Kim Tae Heon",
     "license": "ISC",
     "dependencies": {
+        "@babel/core": "^7.8.3",
+        "@babel/node": "^7.8.3",
+        "@babel/preset-env": "^7.8.3",
         "express": "^4.17.1"
+    },
+    "scripts": {
+        "start": "nodemon --exec babel-node index.js"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.2"
     }
 }
