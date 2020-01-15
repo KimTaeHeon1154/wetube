@@ -1,0 +1,11 @@
+header.header
+    .header__column
+        a(href=routes.home)
+            i.fab.fa-youtube
+    .header__column
+        ul
+            li
+                a(href=routes.join) Join
+                //- routes 아래의 변수들은 res.locals에 의해 global하게 설정 되었으므로, 여기서도 사용 가능!
+            li
+                a(href=routes.login) Log In
