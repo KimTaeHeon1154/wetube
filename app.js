@@ -1,0 +1,32 @@
+import express from "express";
+import morgan from "morgan";
+import helmet from "helmet";
+import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
+import userRouter from "./routers/userRouter";
+import videoRouter from "./routers/videoRouter";
+import globalRouter from "./routers/globalRouter";
+import routes from "./routes";
+//자식 디렉토리로 갈때는 ./를 쓴다.//
+
+//express import한 걸 상수로 변환
+const app = express();
+
+//각종 middleware들
+app.set("view engine", "pug"); //원래는 view engine 따로 없는데, pug사용하기 위해 등록!
+app.use(cookieParser()); //쿠키 전달 관련
+app.use(bodyParser.json()); //사용자 정보 전달한 거 검사
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(helmet()); //보안 관련
+app.use(morgan("dev")); //application에서 일어나는 일 모두 logging
+
+//Routers
+app.use(routes.home, globalRouter);
+app.use(routes.users, userRouter);
+//누군가 user에 들어가면, userRouter가 실행된다. 자세한 건 router.js의 userRouter보면 나오겠지//
+app.use(routes.videos, videoRouter);
+//routes.js에서 import해온 url들은 넣은 걸 볼 수 있다. routes.videos에서.//
+
+
+export default app;
+//다른 파일에서 import할때, app들어간 덩어리를 다 주겠다는 뜻//
