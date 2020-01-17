@@ -3,4 +3,6 @@ extends layouts/main
 
 //- block 태그 안에 내용 추가하기!
 block content
-    p Search
+    .search__header
+        //- searchingBy 변수는 videoController.js 파일에 search 부분에서 정의함
+        h3 Searching by #{searchingBy}

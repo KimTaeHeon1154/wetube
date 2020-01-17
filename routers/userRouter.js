@@ -6,10 +6,12 @@ import { users, userDetail, editProfile, changePassword } from "../controllers/u
 
 const userRouter = express.Router();
 
+// 순서 중요
 userRouter.get(routes.users, users);
-userRouter.get(routes.userDetail, userDetail);
+
 userRouter.get(routes.editProfile, editProfile);
 userRouter.get(routes.changePassword, changePassword);
+userRouter.get(routes.userDetail, userDetail);
 
 
 export default userRouter;

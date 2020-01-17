@@ -3,4 +3,13 @@ extends layouts/main
 
 //- block 태그 안에 내용 추가하기!
 block content
-    p Join
+    .form-container
+        //- method가 get이면 url에 보이고, post면 url에 보이지 않음
+        form(action=routes.join, method="post")
+            input(type="text", name="name", placeholder="Full Name")
+            input(type="email", name="email", placeholder="Email")
+            input(type="password", name="password", placeholder="Password")
+            input(type="password", name="password2", placeholder="Verify Password")
+            input(type="submit", value="Join Now")
+        //- include 태그로 다른 pug파일의 양식 그대로 가져올 수 있다.
+        include partials/socialLogin

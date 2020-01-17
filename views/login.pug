@@ -3,4 +3,10 @@ extends layouts/main
 
 //- block 태그 안에 내용 추가하기!
 block content
-    p Login
+    .form-container
+        //- method가 get이면 url에 보이고, post면 url에 보이지 않음
+        form(action=routes.login, method="post")
+            input(type="email", name="email", placeholder="Email")
+            input(type="password", name="password", placeholder="Password")
+            input(type="submit", value="Log In")
+        include partials/socialLogin

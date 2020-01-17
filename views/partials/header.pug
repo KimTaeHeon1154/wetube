@@ -1,7 +1,12 @@
 header.header
     .header__column
         a(href=routes.home)
+            //- i.은 아이콘 의미. fontawesome.com에서 아이콘 가져오자
             i.fab.fa-youtube
+    .header__column
+        //- 이 form태그로 videoController.js 파일의 search 함수를 실행한다.
+        form(action=routes.search, method="get")
+            input(type="text", placeholder="Search for: term...", name="term")
     .header__column
         ul
             li
