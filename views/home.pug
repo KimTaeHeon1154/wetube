@@ -4,4 +4,6 @@ extends layouts/main
 //- block 태그 안에 내용 추가하기!
 block content
     .videos
-        h1 Video
+        //- videos 객체를 전달받아서, 각각을 each, in으로 iteration(반복)처리한다.
+        each video in videos
+            h1= video.title

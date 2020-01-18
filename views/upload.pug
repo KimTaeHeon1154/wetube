@@ -3,4 +3,10 @@ extends layouts/main
 
 //- block 태그 안에 내용 추가하기!
 block content
-    p Upload
+    .form-container
+        form(action=`/video${routes.upload}`, method="post")
+            label(for="file") Video File
+            input(type="file", name='name', id="file")
+            input(type="text", name="title", placeholder="Title")
+            textarea(name="description", placeholder="Description")
+            input(type="submit", value="Upload Video")
