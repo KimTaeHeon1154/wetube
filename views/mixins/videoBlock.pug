@@ -5,7 +5,8 @@
 //- mixin 은 pug에서 쓰이는 함수, 객체가 필요
 mixin videoBlock(video = {})
     .videoBlock
-        //- control 인자는 자동재생에 관한 것임.
-        video.videoBlock__thumbnail(src=video.videoFile, controls=true)
-        h4.videoBlock__title=video.title
-        h6.videoBlock__views=video.views
+        a(href=routes.videoDetail(video.id))
+            //- control 인자는 자동재생에 관한 것임.
+            video.videoBlock__thumbnail(src=video.videoFile, controls=true)
+            h4.videoBlock__title=video.title
+            h6.videoBlock__views=video.views

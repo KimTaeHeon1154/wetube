@@ -11,7 +11,8 @@ userRouter.get(routes.users, users);
 
 userRouter.get(routes.editProfile, editProfile);
 userRouter.get(routes.changePassword, changePassword);
-userRouter.get(routes.userDetail, userDetail);
+// routes.js 보면, userDetail을 함수로 만들었기 때문에, 괄호가 들어간다.
+userRouter.get(routes.userDetail(), userDetail);
 
 
 export default userRouter;

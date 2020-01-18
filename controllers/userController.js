@@ -6,7 +6,6 @@ import routes from "../routes";
 export const getJoin = (req, res) => {
     res.render("join", { pageTitle: "Join" });
 };
-
 export const postJoin = (req, res) => {
     // req.body 안의 name, email, password, password2 가져오는 코드
     const {
@@ -21,11 +20,20 @@ export const postJoin = (req, res) => {
         // To Do : Log user in
         res.redirect(routes.home);
     }
+};
+
+
+export const getLogin = (req, res) => res.render("login", { pageTitle: "Log In" });
+export const postLogin = (req, res) => {
+    // 로그인 성공적이면, 홈으로 redirect
+    res.redirect(routes.home);
 }
 
-
-export const login = (req, res) => res.render("login", { pageTitle: "Log In" });
-export const logout = (req, res) => res.render("logout", { pageTitle: "Log Out" });
+// 로그아웃 누르면 로그아웃 처리하고, 홈화면으로 redirect
+export const logout = (req, res) => {
+    // To Do : Process Logout
+    res.redirect(routes.home);
+};
 
 export const users = (req, res) => res.render("users", { pageTitle: "Users" });
 export const userDetail = (req, res) => res.render("userDetail", { pageTitle: "User Detail" });

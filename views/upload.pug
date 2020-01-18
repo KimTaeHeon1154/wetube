@@ -4,9 +4,10 @@ extends layouts/main
 //- block 태그 안에 내용 추가하기!
 block content
     .form-container
-        form(action=`/video${routes.upload}`, method="post")
+        form(action=`/videos${routes.upload}`, method="post")
             label(for="file") Video File
-            input(type="file", name='name', id="file")
-            input(type="text", name="title", placeholder="Title")
-            textarea(name="description", placeholder="Description")
+            input(type="file", name='name', id="file", required=true)
+            input(type="text", name="title", placeholder="Title", required=true)
+            textarea(name="description", placeholder="Description", required=true)
+            //- required=true가 있으면 반드시 값을 입력해야 한다
             input(type="submit", value="Upload Video")
