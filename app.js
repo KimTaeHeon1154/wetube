@@ -17,7 +17,7 @@ const app = express();
 app.use(helmet()); //보안 관련
 app.set("view engine", "pug"); //원래는 view engine 따로 없는데, pug사용하기 위해 등록!
 app.use(cookieParser()); //쿠키 전달 관련
-app.use(bodyParser.json()); //사용자 정보 전달한 거 검사
+app.use(bodyParser.json()); //사용자 정보 전달한 거 검사 (예를들어, 회원가입 시 입력하는 정보들을 consol.log(req.body)하면 볼 수 있음)
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("dev")); //application에서 일어나는 일 모두 logging
 

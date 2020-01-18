@@ -1,0 +1,11 @@
+//- mixin 기법은 html에서 자주 사용되는 코드들을 파일로 따로 만들고, include시켜 복붙을 안 해도 되도록 해준다!
+
+//- 이 파일은 비디오 재생하는 부분에 대한 공통 코드
+
+//- mixin 은 pug에서 쓰이는 함수, 객체가 필요
+mixin videoBlock(video = {})
+    .videoBlock
+        //- control 인자는 자동재생에 관한 것임.
+        video.videoBlock__thumbnail(src=video.videoFile, controls=true)
+        h4.videoBlock__title=video.title
+        h6.videoBlock__views=video.views

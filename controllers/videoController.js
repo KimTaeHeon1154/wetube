@@ -13,8 +13,8 @@ export const home = (req, res) => {
 export const search = (req, res) => {
     const { query: { term: searchingBy } } = req;
     // 위 코드의 의미는, searchingBy라는 변수에 req.query.term을 저장한 것과 같다. 뭔가 검색했을 때, url에 검색한 단어(term)이 뜨도록 해준다.
-    res.render("search", { pageTitle: "Search", searchingBy });
-    // searchingBy 변수도 전달함
+    res.render("search", { pageTitle: "Search", searchingBy, videos });
+    // searchingBy, videos 변수도 전달함
 };
 
 export const upload = (req, res) => res.render("upload", { pageTitle: "Upload" });

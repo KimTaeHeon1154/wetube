@@ -1,7 +1,29 @@
+import routes from "../routes";
+
 //user 관련 모델에 쓰이는 함수(로직) 모음 파일
 //globalRouter.js, userRouter.js 파일에 있는 함수에 들어간다.
 
-export const join = (req, res) => res.render("join", { pageTitle: "Join" });
+export const getJoin = (req, res) => {
+    res.render("join", { pageTitle: "Join" });
+};
+
+export const postJoin = (req, res) => {
+    // req.body 안의 name, email, password, password2 가져오는 코드
+    const {
+        body: { name, email, password, password2 }
+    } = req;
+    // 아래 코드는 비밀번호 확인 올바른지 확인하는 코드. 안 맞으면 오류메세지(400)보내고, 다시 join 페이지로... 맞으면 홈화면으로 redirect
+    if (password !== password2) {
+        res.status(400);
+        res.render("join", { pageTitle: "Join" });
+    } else {
+        // To Do : Register user
+        // To Do : Log user in
+        res.redirect(routes.home);
+    }
+}
+
+
 export const login = (req, res) => res.render("login", { pageTitle: "Log In" });
 export const logout = (req, res) => res.render("logout", { pageTitle: "Log Out" });
 

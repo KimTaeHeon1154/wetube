@@ -1,9 +1,14 @@
 extends layouts/main
 //- layouts 폴더의 main.pug를 복붙해 온다는 뜻이다. 해당 레이아웃을 사용할 수 있다.
+include mixins/videoBlock
 
 //- block 태그 안에 내용 추가하기!
 block content
     .videos
-        //- videos 객체를 전달받아서, 각각을 each, in으로 iteration(반복)처리한다.
-        each video in videos
-            h1= video.title
+        //- db.js로부터 videos 객체를 전달받아서, 각각을 each, in으로 iteration(반복)처리한다.
+        each item in videos
+            +videoBlock({
+                title:item.title,
+                views:item.views,
+                videoFile:item.videoFile
+            })
