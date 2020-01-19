@@ -5,6 +5,7 @@
 //- mixin 은 pug에서 쓰이는 함수, 객체가 필요
 mixin videoBlock(video = {})
     .videoBlock
+        //- 썸네일, 제목, 조회수 누르면 videoDetail로 이동하도록 a 태그!
         a(href=routes.videoDetail(video.id))
             //- control 인자는 자동재생에 관한 것임.
             video.videoBlock__thumbnail(src=video.videoFile, controls=true)

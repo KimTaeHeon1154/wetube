@@ -27,12 +27,22 @@ export const search = (req, res) => {
 };
 
 export const getUpload = (req, res) => res.render("upload", { pageTitle: "Upload" });
-export const postUpload = (req, res) => {
+export const postUpload = async(req, res) => {
     const {
-        body: { file, title, description }
+        body: { title, description },
+        file: { path }
+        // multer에 의해 path 변수에 해당 파일의 경로가 저장됨
     } = req;
-    // To Do : Upload and Save video
-    res.redirect(routes.videoDetail(324393));
+    // newVideo라는 변수에 필요한 변수들 저장
+    const newVideo = await Video.create({
+        // models 폴더의 Video.js의 schema와 형태가 같기 때문에, 자동으로 mongoDB에 저장이 된다!!
+        fileUrl: path,
+        title,
+        description
+    });
+    console.log(newVideo);
+    // 업로드한 영상의 id 값을 통해 해당 비디오의 videoDetail로 redirect
+    res.redirect(routes.videoDetail(newVideo.id));
 }
 
 export const videoDetail = (req, res) => res.render("videoDetail", { pageTitle: "Video Detail" });
