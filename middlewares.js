@@ -9,4 +9,4 @@ export const localsMiddleware = (req, res, next) => {
     };
     next();
 };
-// siteName이라는 변수를 만들고, 이를 글로벌하게 사용가능하게 함
+// 변수를 만들고, 이를 글로벌하게 사용가능하게 하는 미들웨어에 쓰이는 파일

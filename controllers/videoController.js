@@ -1,7 +1,6 @@
 //video 관련 모델에 쓰이는 함수(로직) 모음 파일
 //globalRouter.js, videoRouter.js에 있는 함수들에 들어간다.
 
-import { videos } from "../db"
 import routes from "../routes";
 
 //render함수를 쓰면, views 폴더의 home.pug파일(해당하는)을 찾아서 해당 html을 보여주고, export로 인해 해당 pug파일에 변수들을 전달해준다.!!!
