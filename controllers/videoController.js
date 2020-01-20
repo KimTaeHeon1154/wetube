@@ -1,16 +1,17 @@
-//video 관련 모델에 쓰이는 함수(로직) 모음 파일
-//globalRouter.js, videoRouter.js에 있는 함수들에 들어간다.
+// video 관련 모델에 쓰이는 함수(로직) 모음 파일
+// globalRouter.js, videoRouter.js에 있는 함수들에 들어간다.
 
 import routes from "../routes";
 import Video from "../models/Video";
 
-//render함수를 쓰면, views 폴더의 home.pug파일(해당하는)을 찾아서 해당 html을 보여주고, export로 인해 해당 pug파일에 변수들을 전달해준다.!!!
+// render함수를 쓰면, views 폴더의 home.pug파일(해당하는)을 찾아서 해당 html을 보여주고, export로 인해 해당 pug파일에 변수들을 전달해준다.!!!
 export const home = async(req, res) => {
     // async & await => 한번에 두 내용 처리하지 않고, 하나 끝날때까지 기다리도록 함 (에러가 나도 끝난 것이기 때문에 다음 단계 실행이 됨 -> 에러를 잡지는 못함)
     // try 구문으로 에러난 경우는 에러 보여주도록!
     try {
         // models폴더의 Video.js에서 모든 동영상들을 가져와 보여주는 부분!! async와 await 때문에 이 과정이 끝나야 아래쪽의 render가 실행됨
-        const videos = await Video.find({});
+        const videos = await Video.find({}).sort({ _id: -1 });
+        // sort로, id역순으로 정렬. 최신 비디오가 먼저 나오게 됨!
         res.render("home", { pageTitle: "Home", videos });
     } catch (error) {
         console.log(error);
@@ -19,9 +20,19 @@ export const home = async(req, res) => {
 };
 // 두번째 객체인 {}안의 내용 보면, pageTitle 변수에 저장할 수 있다. 이 변수는 home.pug에서만 global하게 쓰이는 변수이다. (각 템플릿마다 이렇게 전역적 변수를 설정해줄 수 있다.)
 
-export const search = (req, res) => {
-    const { query: { term: searchingBy } } = req;
+export const search = async(req, res) => {
+    const {
+        query: { term: searchingBy }
+    } = req;
     // 위 코드의 의미는, searchingBy라는 변수에 req.query.term을 저장한 것과 같다. 뭔가 검색했을 때, url에 검색한 단어(term)이 뜨도록 해준다.
+    let videos = [];
+    try {
+        // 제목에 검색한 단어(searchingBy 변수)가 들어가고, 옵션으로 대소문자 구분 없이(insensitive) 동영상을 찾음. 찾아진 동영상들은 videos 리스트에 추가됨.
+        // $regex, $options는 mongoDB에서 지원하는 정규표현식 기능이다
+        videos = await Video.find({ title: { $regex: searchingBy, $options: "i" } });
+    } catch (error) {
+        console.log(error);
+    }
     res.render("search", { pageTitle: "Search", searchingBy, videos });
     // searchingBy, videos 변수도 search.pug에 전달함
 };
@@ -106,6 +117,8 @@ export const deleteVideo = async(req, res) => {
     try {
         // findOneAndRemove함수로, 해당 id 동영상을 DB에서 삭제한다
         await Video.findOneAndRemove({ _id: id });
-    } catch (error) {}
+    } catch (error) {
+        console.log(error);
+    }
     res.redirect(routes.home)
 };

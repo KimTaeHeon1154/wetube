@@ -9,9 +9,14 @@ block content
         h3 Searching by #{searchingBy}
     //- 아래 부분은 검색했을 때, 결과로 나오는 영상들을 보여주는 부분
     .search__videos
+        //- 검색했을 때, 비디오가 1개도 검색이 안 된 경우
+        if videos.length === 0
+            h5 No Video Found
         each item in videos
             +videoBlock({
                 title:item.title,
                 views:item.views,
-                videoFile:item.videoFile
+                videoFile:item.videoFile,
+                id:item.id
             })
+            //- video 변수 => {title, views, videoFile, id}를 가진다

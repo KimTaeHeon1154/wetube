@@ -32,6 +32,5 @@ app.use(routes.users, userRouter);
 app.use(routes.videos, videoRouter);
 //routes.js에서 import해온 url들은 넣은 걸 볼 수 있다. routes.videos에서.//
 
-
 export default app;
 //다른 파일에서 import할때, app들어간 덩어리를 다 주겠다는 뜻//
