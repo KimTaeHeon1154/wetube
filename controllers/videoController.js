@@ -45,7 +45,21 @@ export const postUpload = async(req, res) => {
     res.redirect(routes.videoDetail(newVideo.id));
 }
 
-export const videoDetail = (req, res) => res.render("videoDetail", { pageTitle: "Video Detail" });
+export const videoDetail = async(req, res) => {
+    const {
+        params: { id }
+    } = req;
+    // routes.js에서 videoDetail보면, url로부터 id 변수를 받는다. 이 변수는 req.params.id이므로, 이를 위 코드로 적은 것이다
+    try {
+        const video = await Video.findById(id);
+        // video 변수에, req.params.id를 가지고 동영상을 찾아서 저장
+        res.render("videoDetail", { pageTitle: "Video Detail", video });
+        // 위에서 만든 video 변수 찾고나서, videoDetail.pug 템플릿에 전달
+    } catch (error) {
+        res.redirect(routes.home);
+        // 에러가 뜨면, 에러 보고 home화면으로 redirect
+    }
+};
 
 export const editVideo = (req, res) => res.render("editVideo", { pageTitle: "Edit Video" });
 

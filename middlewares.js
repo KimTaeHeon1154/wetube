@@ -1,8 +1,8 @@
 import multer from "multer";
 import routes from "./routes";
 
-// multer 이용하는 부분
-const multerVideo = multer({ dest: "videos/" });
+// multer 이용하는 부분 (어느 경로(url)에 만들지)
+const multerVideo = multer({ dest: "uploads/videos/" });
 
 
 export const localsMiddleware = (req, res, next) => {

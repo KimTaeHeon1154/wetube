@@ -20,6 +20,7 @@ const UPLOAD = "/upload";
 const VIDEO_DETAIL = "/:id";
 const EDIT_VIDEO = "/:id/edit";
 const DELETE_VIDEO = "/:id/delete";
+// :id의 의미는, url로부터 해당 칸에 들어오는 내용을 id라는 이름의 변수로 받겠다는 것!
 
 
 const routes = {
