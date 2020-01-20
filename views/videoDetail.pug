@@ -7,7 +7,8 @@ block content
         //- 동영상 플레이어 부분
         video(src=`/${video.fileUrl}`)
     .video__info
-        a(href=routes.editVideo) Edit Video
+        a(href=routes.editVideo(video.id)) Edit Video
+        //- routes.js의 editVideo 함수가 실행되고, 인자는 id가 되어, 해당 id를 가지는 동영상을 수정하는 페이지로 넘어가네!
         h5.video__title=video.title
         span.video__views=video.views
         p.video__description=video.description

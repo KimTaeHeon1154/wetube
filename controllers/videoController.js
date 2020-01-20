@@ -26,6 +26,11 @@ export const search = (req, res) => {
     // searchingBy, videos 변수도 search.pug에 전달함
 };
 
+
+// get은 url에 드러남. 그래서 렌더링만 해줌
+// post에서 내부적으로 처리해야 할 것들 처리해주고, 업데이트하고, redirect로 마무리
+
+
 export const getUpload = (req, res) => res.render("upload", { pageTitle: "Upload" });
 export const postUpload = async(req, res) => {
     const {
@@ -45,6 +50,9 @@ export const postUpload = async(req, res) => {
     res.redirect(routes.videoDetail(newVideo.id));
 }
 
+
+// routes.js 참고하면, id 별로 다른 url을 가지게 할 수 있다.
+// id별로 다른 비디오에 들어가기 위해서는, 아래의 양식처럼 id를 가지고 비디오를 찾고, 그에 맞는 비디오를 띄워주는 페이지로 들어가야 한다! (req.params.id / try catch 구문 사용)
 export const videoDetail = async(req, res) => {
     const {
         params: { id }
@@ -53,7 +61,7 @@ export const videoDetail = async(req, res) => {
     try {
         const video = await Video.findById(id);
         // video 변수에, req.params.id를 가지고 동영상을 찾아서 저장
-        res.render("videoDetail", { pageTitle: "Video Detail", video });
+        res.render("videoDetail", { pageTitle: video.title, video });
         // 위에서 만든 video 변수 찾고나서, videoDetail.pug 템플릿에 전달
     } catch (error) {
         res.redirect(routes.home);
@@ -61,6 +69,43 @@ export const videoDetail = async(req, res) => {
     }
 };
 
-export const editVideo = (req, res) => res.render("editVideo", { pageTitle: "Edit Video" });
+export const getEditVideo = async(req, res) => {
+    // id에 해당하는 editVideo 페이지로 렌더링
+    const {
+        params: { id }
+    } = req;
+    try {
+        // 비디오가 찾아지면, editVideo.pug html로 이동, 페이지 제목 아래처럼 + video 변수 전달
+        const video = await Video.findById(id);
+        res.render("editVideo", { pageTitle: `Edit ${video.title}`, video });
+    } catch (error) {
+        res.redirect(routes.home);
+    };
+    res.render("editVideo", { pageTitle: "Edit Video" });
+};
+export const postEditVideo = async(req, res) => {
+    // 내용들에 대해 수정이 이루어지는 부분
+    const {
+        params: { id },
+        body: { title, description }
+    } = req;
+    try {
+        // findOneAndUpdate 함수로, id를 찾고, title과 description을 업데이트 한다. / 수정을 하고 나서는 videoDetail로 redirect해서 수정 된 걸 확인한다!
+        // 이런 류의 함수를 보려면, mongoosejs.com의 documents 중에 query 보면 됨
+        await Video.findOneAndUpdate({ _id: id }, { title, description });
+        res.redirect(routes.videoDetail(id));
+    } catch (error) {
+        res.redirect(routes.home);
+    }
+};
 
-export const deleteVideo = (req, res) => res.render("deleteVideo", { pageTitle: "Delete Video" });
+export const deleteVideo = async(req, res) => {
+    const {
+        params: { id }
+    } = req;
+    try {
+        // findOneAndRemove함수로, 해당 id 동영상을 DB에서 삭제한다
+        await Video.findOneAndRemove({ _id: id });
+    } catch (error) {}
+    res.redirect(routes.home)
+};

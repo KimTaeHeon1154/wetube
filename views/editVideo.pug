@@ -4,8 +4,9 @@ extends layouts/main
 //- block 태그 안에 내용 추가하기!
 block content
     .form-container
-        form(action=`/videos${routes.editVideo}`, method="post")
-            input(type="text", name="name", placeholder="Name")
-            textarea(name="description", placeholder="Description")
+        form(action=routes.editVideo(video.id), method="post")
+            //- videoController.js에서 editVideo 관련 함수보면, video 변수 전달받았음! value로 해당 비디오의 수정하기 전 title, description을 미리 넣어둠
+            input(type="text", name="title", placeholder="Title", value=video.title)
+            textarea(name="description", placeholder="Description")=video.description
             input(type="submit", value="Update Video")
-        a.form-container__link.form-container__link--delete(href=`/videos${routes.deleteVideo}`) Delete Video
+        a.form-container__link.form-container__link--delete(href=routes.deleteVideo(video.id)) Delete Video

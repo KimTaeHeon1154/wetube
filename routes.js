@@ -20,7 +20,8 @@ const UPLOAD = "/upload";
 const VIDEO_DETAIL = "/:id";
 const EDIT_VIDEO = "/:id/edit";
 const DELETE_VIDEO = "/:id/delete";
-// :id의 의미는, url로부터 해당 칸에 들어오는 내용을 id라는 이름의 변수로 받겠다는 것!
+// :id의 의미는, url로부터 해당 칸에 들어오는 내용을 id라는 이름의 변수로 받겠다는 것! 아래의 routes에서 id들은 다 함수처리 되어, 숫자로 표시된다
+// id별로 각기 다른 url로 들어가기 위한 부분 시작!
 
 
 const routes = {
@@ -31,6 +32,7 @@ const routes = {
     search: SEARCH,
     users: USERS,
     // 아래는 함수를 만든 것. id값을 URL에 ':id/'가 아니라, id 값 (숫자)를 띄우기 위해서 함수로 만든 것
+    // 함수로 만들었으면, ~~Router.js 파일에도 함수로 반드시 수정해줄 것!
     userDetail: id => {
         if (id) {
             return `/users/${id}`;
@@ -49,8 +51,20 @@ const routes = {
             return VIDEO_DETAIL;
         }
     },
-    editVideo: EDIT_VIDEO,
-    deleteVideo: DELETE_VIDEO,
+    editVideo: id => {
+        if (id) {
+            return `/videos/${id}/edit`;
+        } else {
+            return EDIT_VIDEO;
+        }
+    },
+    deleteVideo: id => {
+        if (id) {
+            return `/videos/${id}/delete`;
+        } else {
+            return DELETE_VIDEO;
+        }
+    },
 };
 
 export default routes;
