@@ -17,6 +17,7 @@ const app = express();
 app.use(helmet()); //보안 관련
 app.set("view engine", "pug"); //원래는 view engine 따로 없는데, pug사용하기 위해 등록!
 app.use("/uploads", express.static("uploads")); //디렉토리에서 파일을 보내주는 미들웨어 (middlewares.js 보면, multer의 dest가 uploads/videos인데, uploads라는 기본 url이 없으니까 둔 것!)
+app.use("/static", express.static("static")); //static 폴더를 내 서버에 등록한 것.
 app.use(cookieParser()); //쿠키 전달 관련
 app.use(bodyParser.json()); //사용자 정보 전달한 거 검사 (예를들어, 회원가입 시 입력하는 정보들을 consol.log(req.body)하면 볼 수 있음)
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -20,6 +20,7 @@ module.exports = {
         "spaced-comment": "off",
         "linebreak-style": "off",
         "prettier/prettier": "off",
-        "no-else-return": "off"
+        "no-else-return": "off",
+        "import/first": "off"
     }
 };
