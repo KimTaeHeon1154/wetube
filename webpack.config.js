@@ -10,7 +10,7 @@ const autoprefixer = require("autoprefixer");
 // webpack 실행 시 mode 관련 변수
 const MODE = process.env.WEBPACK_ENV;
 
-// entry는 어떤 파일이 들어오는지, output은 어디로 내보내는지에 관한 변수
+// entry는 어떤 파일이 들어오는지, output은 어디로 내보내는지에 관한 변수 / resolve는 아래 인자들을 합쳐서 주소로 만든다. / join은 2개 합침
 const ENTRY_FILE = path.resolve(__dirname, "assets", "js", "main.js");
 // path구문을 썼기 때문에, 절대경로(컴퓨터상에서 경로 나타내는 것과 같이, users/documents/wetube/assets/js/main.js 라는 것.) 위와 같은 방식으로 경로 적어줌
 
@@ -19,7 +19,7 @@ const OUTPUT_DIR = path.join(__dirname, "static");
 
 // 변수 간단히... output에는 디렉토리(path), 파일이름(filename) 2개가 와야 함.
 const config = {
-    entry: ["@babel-polyfill", ENTRY_FILE],
+    entry: ["@babel/polyfill", ENTRY_FILE],
     mode: MODE,
     // 특정 module을 만났을 때, 적용되는 rule. (rule은 array 형태다)
     module: {
