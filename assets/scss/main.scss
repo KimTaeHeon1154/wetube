@@ -1,3 +1,4 @@
+// 가장 먼저 적용되는, 기본 틀이 되는 scss 파일 (?)
 // styles.scss에서 import 하자
 html,
 body {
@@ -16,4 +17,20 @@ main {
     max-width: 1400px;
     margin: 0 auto;
     min-height: 70vh;
+}
+
+button,
+input {
+    padding: 7px 10px;
+    // 패딩은 내부에 상하좌우 공간 / 마진은 바깥쪽에 공간
+    width: 100%;
+    border-radius: 5px;
+    // border-radius로 꼭짓점 둥글게 깎는다
+    font-size: 14px;
+    color: $black;
+    font-weight: 600;
+    &::placeholder {
+        font-weight: 300;
+        color: rgba(0, 0, 0, 0.7);
+    }
 }
