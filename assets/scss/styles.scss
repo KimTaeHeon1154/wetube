@@ -1,3 +1,6 @@
-body {
-    background-color: red;
-}
+@import "./config/variables";
+@import "./config/reset.scss";
+@import "main.scss";
+@import "./partials/header.scss";
+// @를 붙이면 명령함수
+// 각종 scss 파일에서 작업한 것들을 여기 styles.scss로 import함 -> styles.scss는 웹팩에 의해 resulting.css(아마 styles.css)로 변환되고, pug 파일의 link rel에 의해 pug파일과 연동된다!!
