@@ -6,9 +6,11 @@ block content
     .form-container
         //- /users/~~~ 로 찾아가기 위해서 아랫줄과 같은 링크를 사용한다.
         form(action=`/users${routes.editProfile}`, method="post")
-            label(for="avatar") Avatar
-            input(type="file", id="avatar", name='avatar')
+            .fileUpload
+                label(for="avatar") Avatar
+                input(type="file", id="avatar", name='avatar')
             input(type="text", placeholder="Name", name='name')
             input(type="email", placeholder="Email", name="email")
             input(type="submit", value="Update Profile")
-        a.form-container__link(href=`/users${routes.changePassword}`) Change Password
+        a.form-container__link(href=`/users${routes.changePassword}`)
+            button Change Password

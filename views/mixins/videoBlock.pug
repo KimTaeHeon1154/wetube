@@ -11,6 +11,10 @@ mixin videoBlock(video = {})
             //- control 인자는 자동재생에 관한 것임.
             video.videoBlock__thumbnail(src=video.videoFile, controls=true)
             h4.videoBlock__title=video.title
-            h6.videoBlock__views=video.views
+            if video.views === 1
+                h6.videoBlock__views 1 view
+            else
+                h6.videoBlock__views #{video.views} views
+
 
 //- home.pug나 search.pug 파일에 양식 쓰임. video변수에 item의 각각이 들어감

@@ -6,9 +6,10 @@ block content
     .form-container
         //- multer 사용해서 파일을 올리기 때문에, enctype 옵션을 아래처럼 넣어줘야함 (공식 문서 참고)
         form(action=`/videos${routes.upload}`, method="post", enctype="multipart/form-data")
-            label(for="file") Video File
-            //- 비디오 파일만 받도록 accept 옵션
-            input(type="file", name='videoFile', id="file", required=true, accept="video/*")
+            div.fileUpload
+                label(for="file") Video File
+                //- 비디오 파일만 받도록 accept 옵션
+                input(type="file", name='videoFile', id="file", required=true, accept="video/*")
             input(type="text", name="title", placeholder="Title", required=true)
             textarea(name="description", placeholder="Description", required=true)
             //- required=true가 있으면 반드시 값을 입력해야 한다

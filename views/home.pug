@@ -4,10 +4,70 @@ include mixins/videoBlock
 
 //- block 태그 안에 내용 추가하기!
 block content
-    .videos
+    .home-videos
         //- db.js로부터 videos 객체를 전달받아서, 각각을 each, in으로 iteration(반복)처리한다.
         each item in videos
             //- mixins의 videoBlock.pug 파일의 양식을 들여온 것.
+            +videoBlock({
+                id:item.id,
+                title:item.title,
+                views:item.views,
+                videoFile:item.fileUrl
+            })
+            +videoBlock({
+                id:item.id,
+                title:item.title,
+                views:item.views,
+                videoFile:item.fileUrl
+            })
+            +videoBlock({
+                id:item.id,
+                title:item.title,
+                views:item.views,
+                videoFile:item.fileUrl
+            })
+            +videoBlock({
+                id:item.id,
+                title:item.title,
+                views:item.views,
+                videoFile:item.fileUrl
+            })
+            +videoBlock({
+                id:item.id,
+                title:item.title,
+                views:item.views,
+                videoFile:item.fileUrl
+            })
+            +videoBlock({
+                id:item.id,
+                title:item.title,
+                views:item.views,
+                videoFile:item.fileUrl
+            })
+            +videoBlock({
+                id:item.id,
+                title:item.title,
+                views:item.views,
+                videoFile:item.fileUrl
+            })
+            +videoBlock({
+                id:item.id,
+                title:item.title,
+                views:item.views,
+                videoFile:item.fileUrl
+            })
+            +videoBlock({
+                id:item.id,
+                title:item.title,
+                views:item.views,
+                videoFile:item.fileUrl
+            })
+            +videoBlock({
+                id:item.id,
+                title:item.title,
+                views:item.views,
+                videoFile:item.fileUrl
+            })
             +videoBlock({
                 id:item.id,
                 title:item.title,
