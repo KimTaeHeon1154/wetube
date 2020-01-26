@@ -1,4 +1,5 @@
 import routes from "../routes";
+import User from "../models/User";
 
 //user 관련 모델에 쓰이는 함수(로직) 모음 파일
 //globalRouter.js, userRouter.js 파일에 있는 함수에 들어간다.
@@ -6,7 +7,7 @@ import routes from "../routes";
 export const getJoin = (req, res) => {
     res.render("join", { pageTitle: "Join" });
 };
-export const postJoin = (req, res) => {
+export const postJoin = async(req, res) => {
     // req.body 안의 name, email, password, password2 가져오는 코드
     const {
         body: { name, email, password, password2 }
@@ -16,7 +17,17 @@ export const postJoin = (req, res) => {
         res.status(400);
         res.render("join", { pageTitle: "Join" });
     } else {
-        // To Do : Register user
+        try {
+            // user 변수에 name, email 등록
+            const user = await User({
+                name,
+                email
+            });
+            // register 함수는 인자로 주는 pw 이용해서 새로운 인스턴스 만드는 함수
+            await User.register(user, password);
+        } catch (error) {
+            console.log(error);
+        }
         // To Do : Log user in
         res.redirect(routes.home);
     }
