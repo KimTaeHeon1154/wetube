@@ -10,7 +10,7 @@ const globalRouter = express.Router();
 //아래의 방식으로 각 페이지에 띄울 파일이나 함수 정한다.
 //함수부분 보면, 각 Controller.js에 있는 함수들 가져온건데, vscode의 Auto import 기능을 사용한 것이다.
 globalRouter.get(routes.join, getJoin);
-globalRouter.post(routes.join, postJoin);
+globalRouter.post(routes.join, postJoin, postLogin);
 
 globalRouter.get(routes.login, getLogin);
 globalRouter.post(routes.login, postLogin);

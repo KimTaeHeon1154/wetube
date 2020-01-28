@@ -3,11 +3,14 @@ import morgan from "morgan";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
+import passport from "passport";
+import session from "express-session";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 import globalRouter from "./routers/globalRouter";
 import routes from "./routes";
 import { localsMiddleware } from "./middlewares";
+import "./passport"
 //자식 디렉토리로 갈때는 ./를 쓴다.//
 
 //express import한 걸 상수로 변환
@@ -22,6 +25,13 @@ app.use(cookieParser()); //쿠키 전달 관련
 app.use(bodyParser.json()); //사용자 정보 전달한 거 검사 (예를들어, 회원가입 시 입력하는 정보들을 consol.log(req.body)하면 볼 수 있음)
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("dev")); //application에서 일어나는 일 모두 logging
+app.use(session({
+    secret: process.env.COOKIE_SECRET, //.env파일에 저장한 랜덤문자열을 secret인자로 등록해준다. (쿠키 암호화에 쓰이는 문자열이 된다)
+    resave: true,
+    saveUninitialized: false
+})); //passport 이전에 app.use해준다. express로 보내진 cookie를 가지고 있을 수 있는 곳이 session이다. (로그인을 하고나면, req.user 변수에 해당하는 쿠키 암호화되어 할당된다!)
+app.use(passport.initialize()); //전달받은 쿠키 초기화하고, 스스로 쿠키 들여다보면서 req에다가 해당하는 사용자 정보 올려줌
+app.use(passport.session()); //사용자 정보에 해당하는 것들을 session에 저장
 
 //local 변수들을 global하게 쓰기 위한 middleware
 app.use(localsMiddleware); //middlewares.js에 있는 변수들을 사용하겠다
