@@ -13,5 +13,23 @@ export const localsMiddleware = (req, res, next) => {
 };
 // 변수를 만들고, 이를 글로벌하게 사용가능하게 하는 미들웨어에 쓰이는 파일
 
+// 로그아웃 상태에서만 접근가능한 페이지들 정하는 데 쓰이는 미들웨어 (req.user가 있으면 로그인 된 상태) / globalRouter.js에 쓰인다
+export const onlyPublic = (req, res, next) => {
+    if (req.user) {
+        res.redirect(routes.home);
+    } else {
+        next();
+    }
+};
+
+//로그인 상태에서만 접근가능한 페이지들 정하는 데 쓰이는 미들웨어 / user, videoRouter.js에서 볼 수 있다.
+export const onlyPrivate = (req, res, next) => {
+    if (req.user) {
+        next();
+    } else {
+        res.redirect(routes.home);
+    }
+};
+
 // upload.pug에서 videoFile이 name인 부분과 연결. 하나씩만 업로드 가능
 export const uploadVideo = multerVideo.single("videoFile");
