@@ -2,6 +2,7 @@
 
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+
 dotenv.config();
 // dotenv.config() 함수로 인해, .env 파일 다 가져오고, 모든 변수들을 process.env에 저장함 / dotenv를 import하면, dotenv.config()도 해주면 됨
 
