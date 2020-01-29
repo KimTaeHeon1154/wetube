@@ -23,6 +23,9 @@ const DELETE_VIDEO = "/:id/delete";
 // :id의 의미는, url로부터 해당 칸에 들어오는 내용을 id라는 이름의 변수로 받겠다는 것! 아래의 routes에서 id들은 다 함수처리 되어, 숫자로 표시된다
 // id별로 각기 다른 url로 들어가기 위한 부분 시작!
 
+// Github 로그인 관련 url
+const GITHUB = "/auth/github";
+const GITHUB_CALLBACK = "/auth/github/callback";
 
 const routes = {
     home: HOME,
@@ -65,6 +68,8 @@ const routes = {
             return DELETE_VIDEO;
         }
     },
+    gitHub: GITHUB,
+    githubCallback: GITHUB_CALLBACK
 };
 
 export default routes;

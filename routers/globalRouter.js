@@ -1,9 +1,10 @@
 //가장 기본인 곳에서 시작하는 라우터 모음
 import express from "express";
+import passport from "passport";
 import routes from "../routes";
-import { onlyPublic } from "../middlewares";
+import { onlyPublic, onlyPrivate } from "../middlewares";
 import { home, search } from "../controllers/videoController";
-import { getJoin, postJoin, getLogin, logout, postLogin } from "../controllers/userController";
+import { getJoin, postJoin, getLogin, logout, postLogin, githubLogin, postGithubLogIn } from "../controllers/userController";
 //../을 쓰면 부모디렉토리로 나갈 수 있다//
 
 const globalRouter = express.Router();
@@ -18,7 +19,13 @@ globalRouter.post(routes.login, onlyPublic, postLogin);
 
 
 globalRouter.get(routes.home, home);
-globalRouter.get(routes.logout, onlyPublic, logout);
+globalRouter.get(routes.logout, onlyPrivate, logout);
 globalRouter.get(routes.search, search);
+
+globalRouter.get(routes.gitHub, githubLogin);
+// github로 로그인하러가면, userController.js의 githubLogin함수가 실행됨. (깃허브로 인증)
+
+globalRouter.get(routes.githubCallback, passport.authenticate("github", { failureRedirect: "/login" }), postGithubLogIn)
+    // github에서 다시 우리 사이트로 돌아올 때, 로그인이 성공적인지 판단해서 성공적이면 postGithubLogin 함수 실행 (홈화면으로 send)
 
 export default globalRouter;

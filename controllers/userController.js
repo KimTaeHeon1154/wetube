@@ -45,9 +45,47 @@ export const postLogin = passport.authenticate("local", {
     successRedirect: routes.home
 });
 
+// Github로 로그인하기 했을 때, 사용자를 깃헙으로 보내는 과정
+export const githubLogin = passport.authenticate("github");
+
+// Github로 로그인하기 했을 때, 깃허브에서 정보 받아오고 나서 사용자가 다시 우리 사이트로 돌아오는 과정을 처리하기 위한 함수 / passport.js 파일에 쓰인다 (인자는 공식문서 양식 그대로지만, 첫두번째 인자 안 쓰여서 _, __로 표시)
+export const githubLoginCallback = async(_, __, profile, cb) => {
+    // 깃허브에서 주는 정보는 profile 안의 _json 안에 있기 때문에, 이렇게 가져오면 됨
+    const { _json: { id, avatar_url, name, email } } = profile;
+    try {
+        // 깃헙에 등록된 사용자의 이메일과, 기존에 가입되어 있는 사람들의 이메일들을 비교해서 똑같은 사용자가 있는지 찾아줌
+        const user = await User.findOne({ email });
+        if (user) {
+            // 만약 동일한 이메일을 쓰는 계정이 이미 있으면, id와 기존의 id 동일하게!
+            user.githubId = id;
+            user.save();
+            return cb(null, user);
+            // 에러없고, 가입자는 user가 되도록 cb함수 리턴
+        } else {
+            // 신규가입이 되는 경우
+            const newUser = await User.create({
+                email,
+                name,
+                githubId: id,
+                avatarUrl: avatar_url
+                    // User.js 파일의 양식에 따라, profile안의 _json에서 받은 데이터들을 지정해서 user로 등록하는 과정 (githubID에는 id를 할당, avatarUrl에는 avatar_url을 할당)
+            });
+            return cb(null, newUser);
+        }
+    } catch (error) {
+        return cb(error);
+        // 에러가 난 cb 함수를 리턴해서, 사용자 인증에 오류가 있음을 passport가 알게 함
+    }
+};
+
+// Github로 로그인 성공적으로 했을 때, /auth/github/callback 창으로 돌아와서 바로 home 화면으로 돌려보내주는 함수
+export const postGithubLogIn = (req, res) => {
+    res.redirect(routes.home);
+};
+
 // 로그아웃 누르면 로그아웃 처리하고, 홈화면으로 redirect
 export const logout = (req, res) => {
-    // To Do : Process Logout
+    req.logout();
     res.redirect(routes.home);
 };
 
