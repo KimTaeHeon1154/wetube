@@ -3,4 +3,7 @@ extends layouts/main
 
 //- block 태그 안에 내용 추가하기!
 block content
-    p User Detail
+    .user-profile
+        .user-profile__header
+            img.avatar(src=user.avatarUrl)
+            h4.profile__username=user.name

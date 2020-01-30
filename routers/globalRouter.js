@@ -4,7 +4,7 @@ import passport from "passport";
 import routes from "../routes";
 import { onlyPublic, onlyPrivate } from "../middlewares";
 import { home, search } from "../controllers/videoController";
-import { getJoin, postJoin, getLogin, logout, postLogin, githubLogin, postGithubLogIn } from "../controllers/userController";
+import { getJoin, postJoin, getLogin, logout, postLogin, githubLogin, postGithubLogIn, getMe } from "../controllers/userController";
 //../을 쓰면 부모디렉토리로 나갈 수 있다//
 
 const globalRouter = express.Router();
@@ -25,7 +25,10 @@ globalRouter.get(routes.search, search);
 globalRouter.get(routes.gitHub, githubLogin);
 // github로 로그인하러가면, userController.js의 githubLogin함수가 실행됨. (깃허브로 인증)
 
-globalRouter.get(routes.githubCallback, passport.authenticate("github", { failureRedirect: "/login" }), postGithubLogIn)
-    // github에서 다시 우리 사이트로 돌아올 때, 로그인이 성공적인지 판단해서 성공적이면 postGithubLogin 함수 실행 (홈화면으로 send)
+globalRouter.get(routes.githubCallback, passport.authenticate("github", { failureRedirect: "/login" }), postGithubLogIn);
+// github에서 다시 우리 사이트로 돌아올 때, 로그인이 성공적인지 판단해서 성공적이면 postGithubLogin 함수 실행 (홈화면으로 send)
+
+// profile 눌렀을 때 들어오는 페이지에 대한 함수 (routes.js 파일의 me라는 url로 가고, userController.js의 getMe 함수 실행)
+globalRouter.get(routes.me, getMe);
 
 export default globalRouter;

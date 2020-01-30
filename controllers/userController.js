@@ -51,7 +51,7 @@ export const githubLogin = passport.authenticate("github");
 // Github로 로그인하기 했을 때, 깃허브에서 정보 받아오고 나서 사용자가 다시 우리 사이트로 돌아오는 과정을 처리하기 위한 함수 / passport.js 파일에 쓰인다 (인자는 공식문서 양식 그대로지만, 첫두번째 인자 안 쓰여서 _, __로 표시)
 export const githubLoginCallback = async(_, __, profile, cb) => {
     // 깃허브에서 주는 정보는 profile 안의 _json 안에 있기 때문에, 이렇게 가져오면 됨
-    const { _json: { id, avatar_url, name, email } } = profile;
+    const { _json: { id, avatar_url: avatarUrl, name, email } } = profile;
     try {
         // 깃헙에 등록된 사용자의 이메일과, 기존에 가입되어 있는 사람들의 이메일들을 비교해서 똑같은 사용자가 있는지 찾아줌
         const user = await User.findOne({ email });
@@ -67,8 +67,8 @@ export const githubLoginCallback = async(_, __, profile, cb) => {
                 email,
                 name,
                 githubId: id,
-                avatarUrl: avatar_url
-                    // User.js 파일의 양식에 따라, profile안의 _json에서 받은 데이터들을 지정해서 user로 등록하는 과정 (githubID에는 id를 할당, avatarUrl에는 avatar_url을 할당)
+                avatarUrl
+                // User.js 파일의 양식에 따라, profile안의 _json에서 받은 데이터들을 지정해서 user로 등록하는 과정 (githubID에는 id를 할당, avatarUrl에는 avatar_url을 할당)
             });
             return cb(null, newUser);
         }
@@ -89,7 +89,11 @@ export const logout = (req, res) => {
     res.redirect(routes.home);
 };
 
-export const users = (req, res) => res.render("users", { pageTitle: "Users" });
+// 로그인 한 상태에서 userDetail을 가게되면, user변수에다가 현재 로그인한 사용자(req.user)를 할당해준다. (그러므로, userDetail.pug 파일에서 user변수 사용가능) / globalRouter.js에서 쓰인다.
+export const getMe = (req, res) => {
+    res.render("userDetail", { pageTitle: "User Detail", user: req.user });
+};
+
 export const userDetail = (req, res) => res.render("userDetail", { pageTitle: "User Detail" });
 export const editProfile = (req, res) => res.render("editProfile", { pageTitle: "Edit Profile" });
 export const changePassword = (req, res) => res.render("changePassword", { pageTitle: "Change Password" });
