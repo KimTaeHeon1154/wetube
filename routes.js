@@ -10,8 +10,8 @@ const SEARCH = "/search";
 
 //users
 const USERS = "/users";
-const USER_DETAIL = "/:id";
 const EDIT_PROFILE = "/edit-profile";
+const USER_DETAIL = "/:id";
 const CHANGE_PASSWORD = "/change-password";
 const ME = "/me";
 
@@ -39,6 +39,7 @@ const routes = {
     logout: LOGOUT,
     search: SEARCH,
     users: USERS,
+    editProfile: EDIT_PROFILE,
     // 아래는 함수를 만든 것. id값을 URL에 ':id/'가 아니라, id 값 (숫자)를 띄우기 위해서 함수로 만든 것
     // 함수로 만들었으면, ~~Router.js 파일에도 함수로 반드시 수정해줄 것!
     userDetail: id => {
@@ -48,7 +49,6 @@ const routes = {
             return USER_DETAIL;
         }
     },
-    editProfile: EDIT_PROFILE,
     changePassword: CHANGE_PASSWORD,
     videos: VIDEOS,
     upload: UPLOAD,

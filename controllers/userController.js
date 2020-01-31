@@ -141,5 +141,26 @@ export const userDetail = async(req, res) => {
         res.redirect(routes.home);
     }
 };
-export const editProfile = (req, res) => res.render("editProfile", { pageTitle: "Edit Profile" });
+
+// Edit Profile 관련 함수들 (userRouter.js에서 쓰인다.)
+export const getEditProfile = (req, res) => res.render("editProfile", { pageTitle: "Edit Profile" });
+
+export const postEditProfile = async(req, res) => {
+    const {
+        body: { name, email },
+        file
+    } = req;
+    try {
+        await User.findByIdAndUpdate(req.user.id, {
+            name,
+            email,
+            // 이미지에 대해서 아무 동작 안하면, 그냥 원래 쓰던 req.user.avatarUrl 그대로 받아서 유지한다
+            avatarUrl: file ? file.path : req.user.avatarUrl
+        });
+        res.redirect(routes.me);
+    } catch (error) {
+        res.render("editProfile", { pageTitle: "Edit Profile" });
+    }
+};
+
 export const changePassword = (req, res) => res.render("changePassword", { pageTitle: "Change Password" });

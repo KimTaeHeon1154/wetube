@@ -3,6 +3,7 @@ import routes from "./routes";
 
 // multer 이용하는 부분 (어느 경로(url)에 만들지)
 const multerVideo = multer({ dest: "uploads/videos/" });
+const multerAvatar = multer({ dest: "uploads/avatars/" });
 
 
 export const localsMiddleware = (req, res, next) => {
@@ -33,3 +34,4 @@ export const onlyPrivate = (req, res, next) => {
 
 // upload.pug에서 videoFile이 name인 부분과 연결. 하나씩만 업로드 가능
 export const uploadVideo = multerVideo.single("videoFile");
+export const uploadAvatar = multerAvatar.single("avatar");
