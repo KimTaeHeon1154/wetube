@@ -83,6 +83,43 @@ export const postGithubLogIn = (req, res) => {
     res.redirect(routes.home);
 };
 
+// facebook으로 로그인했을 때, 페북으로 보내는 함수
+export const facebookLogin = passport.authenticate("facebook");
+
+// facebook으로 로그인 했을 때, 페북에서 정보 받아오고 다시 우리 사이트의 '/auth/facebook/callback'으로 돌아오는 함수
+export const facebookLoginCallback = async(_, __, profile, cb) => {
+    const { _json: { id, name, email } } = profile;
+    try {
+        // 페북에 등록된 사용자의 이메일과, 기존에 가입되어 있는 사람들의 이메일들을 비교해서 똑같은 사용자가 있는지 찾아줌
+        const user = await User.findOne({ email });
+        if (user) {
+            // 만약 동일한 이메일을 쓰는 계정이 이미 있으면, id와 기존의 id 동일하게!
+            user.facebookId = id;
+            user.avatarUrl = `https://graph.facebook.com/${id}//picture?type=large`;
+            user.save();
+            return cb(null, user);
+            // 에러없고, 가입자는 user가 되도록 cb함수 리턴
+        }
+        // 신규가입이 되는 경우
+        const newUser = await User.create({
+            email,
+            name,
+            facebookId: id,
+            avatarUrl: `https://graph.facebook.com/${id}//picture?type=large`
+                // User.js 파일의 양식에 따라, profile안의 _json에서 받은 데이터들을 지정해서 user로 등록하는 과정 (facebookID에는 id를 할당, avatarUrl에는 facebook 프로필사진의 url을 할당)
+        });
+        return cb(null, newUser);
+    } catch (error) {
+        return cb(error);
+    }
+};
+
+// facebook으로 로그인 성공적으로 했을 때, /auth/facebook/callback 창에서 바로 home화면으로 돌려보내주는 함수
+export const postFacebookLogin = (req, res) => {
+    res.redirect(routes.home);
+};
+
+
 // 로그아웃 누르면 로그아웃 처리하고, 홈화면으로 redirect
 export const logout = (req, res) => {
     req.logout();
@@ -94,6 +131,15 @@ export const getMe = (req, res) => {
     res.render("userDetail", { pageTitle: "User Detail", user: req.user });
 };
 
-export const userDetail = (req, res) => res.render("userDetail", { pageTitle: "User Detail" });
+export const userDetail = async(req, res) => {
+    const { params: { id } } = req;
+    try {
+        // id를 가지고 사용자를 찾아서, 그에 맞게 userDetail 보이게! / 만약 아무 id나 입력해버리면, 에러로 인식해서 home화면으로 간다
+        const user = await User.findById(id);
+        res.render("userDetail", { pageTitle: "User Detail", user });
+    } catch (error) {
+        res.redirect(routes.home);
+    }
+};
 export const editProfile = (req, res) => res.render("editProfile", { pageTitle: "Edit Profile" });
 export const changePassword = (req, res) => res.render("changePassword", { pageTitle: "Change Password" });

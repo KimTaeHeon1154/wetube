@@ -2,8 +2,9 @@
 
 import passport from "passport";
 import GithubStrategy from "passport-github";
+import FacebookStrategy from "passport-facebook";
 import User from "./models/User";
-import { githubLoginCallback } from "./controllers/userController";
+import { githubLoginCallback, facebookLoginCallback } from "./controllers/userController";
 import routes from "./routes";
 
 
@@ -23,6 +24,20 @@ passport.use(
         githubLoginCallback
     )
 );
+
+// Facebook으로 로그인하기 위한 부분 (developers.facebook.com에서 App 만들어야 함)
+passport.use(
+    new FacebookStrategy({
+            clientID: process.env.FB_ID,
+            clientSecret: process.env.FB_SECRET,
+            callbackURL: `https://b7d6e9c6.ngrok.io${routes.facebookCallback}`,
+            profileFields: ['id', 'displayName', 'photos', 'email'],
+            // 우리가 얻고자 하는 정보 적어줌 (공식문서에서 각각의 이름 알아내면 된다)
+            scope: ['public_profile', 'email']
+        },
+        // 잘 돌아갔을 때, 아래 함수를 실행해라!
+        facebookLoginCallback
+    ));
 
 // user id만 쿠키에 담는다. (serializeUser 함수로 쿠키에 어떤 정보 담을지 정함.) / 역도 마찬가지다 --> 즉, 쿠키에 id를 담고, 그 id를 사용해서 사용자를 식별한다 (로직은 내부적으로 자동으로 되기 때문에 그냥 외운다!)
 passport.serializeUser(User.serializeUser());
