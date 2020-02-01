@@ -159,8 +159,33 @@ export const postEditProfile = async(req, res) => {
         });
         res.redirect(routes.me);
     } catch (error) {
-        res.render("editProfile", { pageTitle: "Edit Profile" });
+        res.redirect(routes.editProfile);
     }
 };
 
-export const changePassword = (req, res) => res.render("changePassword", { pageTitle: "Change Password" });
+export const getChangePassword = (req, res) => res.render("changePassword", { pageTitle: "Change Password" });
+export const postChangePassword = async(req, res) => {
+    const {
+        body: {
+            // changePassword.pug파일에서 들어오는 값들의 name부분. req.body 안에 받아진다!
+            oldPassword,
+            newPassword,
+            newPassword1
+        }
+    } = req;
+    try {
+        if (newPassword !== newPassword1) {
+            // 바꾸는 비번과 비번확인이 같지 않은 경우
+            res.status(400);
+            res.redirect(routes.changePassword);
+            return;
+            // 빈 return으로 else 없이 if 구문 종료
+        }
+        // 아래에서, mongoose-local-passport의 구문인 changePassword 쓴다. (위에서 변수로 등록한 이전비번, 새비번을 인지로 씀. 함수가 실행되면 자동으로 비밀번호를 바꿔줌!!)
+        await req.user.changePassword(oldPassword, newPassword);
+        res.redirect(`/users/${routes.changePassword}`);
+    } catch (error) {
+        res.redirect(400);
+        res.redirect(`/users/${routes.changePassword}`);
+    }
+};
