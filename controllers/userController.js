@@ -167,7 +167,7 @@ export const getChangePassword = (req, res) => res.render("changePassword", { pa
 export const postChangePassword = async(req, res) => {
     const {
         body: {
-            // changePassword.pug파일에서 들어오는 값들의 name부분. req.body 안에 받아진다!
+            // changePassword.pug파일에서 들어오는 값들의 name부분. POST로 받아진 input들만 req.body 안에 받아진다! (우리가 미들웨어로 bodyParser를 쓰니까 body에 받아지는 거다!!)
             oldPassword,
             newPassword,
             newPassword1
@@ -181,7 +181,7 @@ export const postChangePassword = async(req, res) => {
             return;
             // 빈 return으로 else 없이 if 구문 종료
         }
-        // 아래에서, mongoose-local-passport의 구문인 changePassword 쓴다. (위에서 변수로 등록한 이전비번, 새비번을 인지로 씀. 함수가 실행되면 자동으로 비밀번호를 바꿔줌!!)
+        // 아래에서, passport-local-mongoose의 구문인 changePassword 쓴다. (위에서 변수로 등록한 이전비번, 새비번을 인지로 씀. 함수가 실행되면 자동으로 비밀번호를 바꿔줌!!)
         await req.user.changePassword(oldPassword, newPassword);
         res.redirect(`/users/${routes.changePassword}`);
     } catch (error) {

@@ -54,11 +54,15 @@ export const postUpload = async(req, res) => {
         // models 폴더의 Video.js의 schema와 형태가 같기 때문에, 자동으로 mongoDB에 저장이 된다!!
         fileUrl: path,
         title,
-        description
+        description,
+        // creator는 로그인한 해당 유저가 됨
+        creator: req.user.id
     });
-    console.log(newVideo);
-    // 업로드한 영상의 id 값을 통해 해당 비디오의 videoDetail로 redirect
+    req.user.videos.push(newVideo.id);
+    req.user.save();
+    // newVideo.id를 videos array에 추가하고, 저장한다.
     res.redirect(routes.videoDetail(newVideo.id));
+    // 업로드한 영상의 id 값을 통해 해당 비디오의 videoDetail로 redirect
 }
 
 
@@ -70,10 +74,12 @@ export const videoDetail = async(req, res) => {
     } = req;
     // routes.js에서 videoDetail보면, url로부터 id 변수를 받는다. 이 변수는 req.params.id이므로, 이를 위 코드로 적은 것이다
     try {
-        const video = await Video.findById(id);
-        // video 변수에, req.params.id를 가지고 동영상을 찾아서 저장
+        // populate함수는, 인자로 오는 objectId(Video.js파일 보면, creator는 id가 할당된다)에 대해, 그에 해당하는 전체 객체 (creator id가 들어가있는 전체)를 불러온다
+        const video = await Video.findById(id).populate("creator");
+        console.log(video);
+        // console.log결과, creator가 id 뿐만 아니고, User.js에서 보이는 모든 값들을 다 객체로 가져오는 것을 볼 수 있다.
         res.render("videoDetail", { pageTitle: video.title, video });
-        // 위에서 만든 video 변수 찾고나서, videoDetail.pug 템플릿에 전달
+        // 위에서 만든 video 변수 찾고나서, video변수를 videoDetail.pug 템플릿에 전달
     } catch (error) {
         res.redirect(routes.home);
         // 에러가 뜨면, 에러 보고 home화면으로 redirect

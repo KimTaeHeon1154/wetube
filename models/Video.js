@@ -32,7 +32,11 @@ const VideoSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         // reference는 파일 이름과 같아야 함.
         ref: "Comment"
-    }]
+    }],
+    creator: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    }
 });
 
 // 모델 정의 (모델명, schema)  ==> schema 이용

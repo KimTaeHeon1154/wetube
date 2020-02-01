@@ -14,6 +14,7 @@ userRouter.post(routes.editProfile, onlyPrivate, uploadAvatar, postEditProfile);
 
 userRouter.get(routes.changePassword, onlyPrivate, getChangePassword);
 userRouter.post(routes.changePassword, onlyPrivate, postChangePassword);
+
 // routes.js 보면, userDetail을 함수로 만들었기 때문에, 괄호가 들어간다.
 userRouter.get(routes.userDetail(), userDetail);
 
