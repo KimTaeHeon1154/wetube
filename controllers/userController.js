@@ -135,7 +135,7 @@ export const userDetail = async(req, res) => {
     const { params: { id } } = req;
     try {
         // id를 가지고 사용자를 찾아서, 그에 맞게 userDetail 보이게! / 만약 아무 id나 입력해버리면, 에러로 인식해서 home화면으로 간다
-        const user = await User.findById(id);
+        const user = await (await User.findById(id)).populated("videos"); //videos가 들어있는 전체 객체를 user에 할당한다.
         res.render("userDetail", { pageTitle: "User Detail", user });
     } catch (error) {
         res.redirect(routes.home);

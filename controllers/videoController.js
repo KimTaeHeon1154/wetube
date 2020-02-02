@@ -76,8 +76,6 @@ export const videoDetail = async(req, res) => {
     try {
         // populate함수는, 인자로 오는 objectId(Video.js파일 보면, creator는 id가 할당된다)에 대해, 그에 해당하는 전체 객체 (creator id가 들어가있는 전체)를 불러온다
         const video = await Video.findById(id).populate("creator");
-        console.log(video);
-        // console.log결과, creator가 id 뿐만 아니고, User.js에서 보이는 모든 값들을 다 객체로 가져오는 것을 볼 수 있다.
         res.render("videoDetail", { pageTitle: video.title, video });
         // 위에서 만든 video 변수 찾고나서, video변수를 videoDetail.pug 템플릿에 전달
     } catch (error) {
@@ -94,7 +92,12 @@ export const getEditVideo = async(req, res) => {
     try {
         // 비디오가 찾아지면, editVideo.pug html로 이동, 페이지 제목 아래처럼 + video 변수 전달
         const video = await Video.findById(id);
-        res.render("editVideo", { pageTitle: `Edit ${video.title}`, video });
+        // 비디오 작성자와 현재 로그인한 유저가 같지 않으면, error를 발생시켜, 자동적으로 home화면으로 redirect 되도록! (추가로, 여기서는 populate 안 썼기 때문에 그냥 video.creator만 해도 id를 의미하게 됨!)
+        if (video.creator !== req.user.id) {
+            throw Error();
+        } else {
+            res.render("editVideo", { pageTitle: `Edit ${video.title}`, video });
+        }
     } catch (error) {
         res.redirect(routes.home);
     };
@@ -121,8 +124,14 @@ export const deleteVideo = async(req, res) => {
         params: { id }
     } = req;
     try {
-        // findOneAndRemove함수로, 해당 id 동영상을 DB에서 삭제한다
-        await Video.findOneAndRemove({ _id: id });
+        // edit video와 마찬가지로, 비디오 작성자와 로그인한 사용자가 다른 경우에는 비디오 삭제 못하도록!
+        const video = await Video.findById(id);
+        if (video.creator !== req.user.id) {
+            throw Error();
+        } else {
+            // findOneAndRemove함수로, 해당 id 동영상을 DB에서 삭제한다
+            await Video.findOneAndRemove({ _id: id });
+        }
     } catch (error) {
         console.log(error);
     }

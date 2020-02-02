@@ -1,0 +1,19 @@
+//- video player와 관련된 고정적인 템플릿
+
+//- videoDetail.pug, 에 쓰인다!
+
+mixin videoPlayer(video = {})
+    .videoPlayer#jsVideoPlayer
+        video(src= `/${video.src}`)
+        .videoPlayer__controls
+            .videoPlayer__column
+                span
+                    i.fas.fa-volume-up
+                span
+                    |00:00 / 10:00
+            .videoPlayer__column
+                span#jsPlayButton
+                    i.fas.fa-play
+            .videoPlayer__column
+                span
+                    i.fas.fa-expand
