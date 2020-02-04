@@ -4,6 +4,10 @@ extends layouts/main
 //- block 태그 안에 내용 추가하기!
 block content
     .form-container
+        //- 우리가 직접 녹화하는 부분
+        .record-container#jsRecordContainer
+            video#jsVideoPreview
+            button#jsRecordBtn Start Recording
         //- multer 사용해서 파일을 올리기 때문에, enctype 옵션을 아래처럼 넣어줘야함 (공식 문서 참고)
         form(action=`/videos${routes.upload}`, method="post", enctype="multipart/form-data")
             div.fileUpload
