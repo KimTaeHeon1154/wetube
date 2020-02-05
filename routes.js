@@ -1,5 +1,6 @@
 //URL 모아둔 파일
 //이 파일 import해서 다른 파일들에서 url을 통일되고 안 헷갈리게 가져간다!
+// routers 폴더에도 해당 라우터 다루는 내용이 있어야 하고, app.js에도 큰 줄기가 있어야 한다.
 
 //global//
 const HOME = "/";
@@ -31,6 +32,12 @@ const GITHUB_CALLBACK = "/auth/github/callback";
 // Facebook 로그인 관련 url
 const FB = "/auth/facebook";
 const FB_CALLBACK = "/auth/facebook/callback";
+
+// API (server와 통신하기 위한 URL) => user는 이 URL에 접근도 불가능하고, 이 URL은 어떤 것도 rendering하지 않는다. (단순히 post 동작만을 하기 위해 만든 url이다)
+const API = "/api";
+const REGISTER_VIEW = "/:id/view";
+// 즉, 누군가 동영상보면, 렌더링 아무것도 안하고 그냥 view 숫자만 올리기 위한 api
+
 
 const routes = {
     home: HOME,
@@ -78,6 +85,8 @@ const routes = {
     me: ME,
     facebook: FB,
     facebookCallback: FB_CALLBACK,
+    api: API,
+    registerView: REGISTER_VIEW
 };
 
 export default routes;

@@ -10,6 +10,7 @@ import MongoStore from "connect-mongo";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 import globalRouter from "./routers/globalRouter";
+import apiRouter from "./routers/apiRouter";
 import routes from "./routes";
 import { localsMiddleware } from "./middlewares";
 import "./passport"
@@ -48,6 +49,7 @@ app.use(routes.users, userRouter);
 //누군가 user에 들어가면, userRouter가 실행된다. 자세한 건 router.js의 userRouter보면 나오겠지//
 app.use(routes.videos, videoRouter);
 //routes.js에서 import해온 url들은 넣은 걸 볼 수 있다. routes.videos에서.//
+app.use(routes.api, apiRouter);
 
 export default app;
 //다른 파일에서 import할때, app들어간 덩어리를 다 주겠다는 뜻//

@@ -137,3 +137,20 @@ export const deleteVideo = async(req, res) => {
     }
     res.redirect(routes.home)
 };
+
+// api와 관련된 함수 (apiRouter.js에 쓰인다)
+export const postRegisterView = async(req, res) => {
+    const { params: { id } } = req;
+    // 누군가 postRegisterView 함수를 post하게 되는 url로 가면, id로 비디오를 찾고, 그 이후에 views 숫자를 1 늘려주고 저장한다. (videoDetail.pug를 보면, 각 video.views에 따라 자동으로 view 숫자가 보이게 된다)
+    try {
+        const video = await Video.findById(id);
+        video.views += 1;
+        video.save();
+        res.status(200);
+    } catch (error) {
+        res.status(400);
+    } finally {
+        res.end();
+        // 서버와의 통신을 종료함
+    }
+}

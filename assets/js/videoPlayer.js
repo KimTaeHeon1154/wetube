@@ -13,6 +13,13 @@ const currentTime = document.getElementById("currentTime");
 const totalTime = document.getElementById("totalTime");
 const volumeRange = document.getElementById("jsVolume");
 
+const registerView = () => {
+    const videoId = window.location.href.split("/videos/")[1];
+    // window.location.href는, 현재 url주소인 "http://localhost:4000/videos/(비디오id)" 문자열인데, split함수로 /videos/를 기준으로 나눠서 그 뒷부분 (그러니까 결국 비디오id 부분)을 가져온 것!
+    fetch(`/api/${videoId}/view`, { method: "POST" });
+    // fetch함수를 쓰면, 해당 url을 접속한 것과 같은 효과를 낼 수 있다! (videoController.js와 apiRouter.js 보면, 해당 url 들어갔으면 view가 추가되는 함수 실행되게 함)
+}
+
 // play,pause 기능과 관련된 함수
 function handlePlayClick() {
     // 정지상태였다면, play하고 / 아니면 정지한다.
@@ -111,6 +118,8 @@ function setTotalTime() {
 
 // 비디오 끝났을 때, 시간 다시 00초로 돌리고 pause하는 함수
 function handleEnded() {
+    registerView();
+    // 비디오 끝났을 때, registerView 함수 실행해서 view 수 1개 늘린다!
     videoPlayer.currentTime = 0;
     playBtn.innerHTML = '<i class="fas fa-play"></i>';
 }
