@@ -447,6 +447,20 @@ input[type="submit"] {
       width: 100%; }
       .video-detail__container .video__comments .add__comment input {
         width: 100%; }
+    .video-detail__container .video__comments .video__comments-list {
+      margin-top: 50px; }
+      .video-detail__container .video__comments .video__comments-list li {
+        background-color: #3498db;
+        color: white;
+        padding: 15px 30px;
+        -webkit-border-radius: 20%;
+           -moz-border-radius: 20%;
+                border-radius: 20%;
+        -webkit-border-bottom-right-radius: 0px;
+           -moz-border-radius-bottomright: 0px;
+                border-bottom-right-radius: 0px; }
+        .video-detail__container .video__comments .video__comments-list li:not(:last-child) {
+          margin-bottom: 15px; }
 
 .home-videos {
   display: grid;

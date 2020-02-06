@@ -1,4 +1,4 @@
-// video Record 부분해 해당하는 파일
+// video Record 부분해 해당하는 파일 (main.js에 추가해줘야 한다!)
 
 const recorderContainer = document.getElementById("jsRecordContainer");
 const recordBtn = document.getElementById("jsRecordBtn");

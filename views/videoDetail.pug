@@ -35,4 +35,5 @@ block content
                 //- name="comment"라서, 해당 폼에 input되는 값을 videoController.js에서 req.body.comment를 가져올 수 있음
             ul.video__comments-list
                 each comment in video.comments
-                    span comment.text
+                    li
+                        span=comment.text
