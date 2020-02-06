@@ -37,6 +37,7 @@ const FB_CALLBACK = "/auth/facebook/callback";
 const API = "/api";
 const REGISTER_VIEW = "/:id/view";
 // 즉, 누군가 동영상보면, 렌더링 아무것도 안하고 그냥 view 숫자만 올리기 위한 api
+const ADD_COMMENT = "/:id/comment";
 
 
 const routes = {
@@ -86,7 +87,8 @@ const routes = {
     facebook: FB,
     facebookCallback: FB_CALLBACK,
     api: API,
-    registerView: REGISTER_VIEW
+    registerView: REGISTER_VIEW,
+    addComment: ADD_COMMENT
 };
 
 export default routes;

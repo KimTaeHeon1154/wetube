@@ -3,6 +3,7 @@
 
 import routes from "../routes";
 import Video from "../models/Video";
+import Comment from "../models/Comment";
 
 // render함수를 쓰면, views 폴더의 home.pug파일(해당하는)을 찾아서 해당 html을 보여주고, export로 인해 해당 pug파일에 변수들을 전달해준다.!!!
 export const home = async(req, res) => {
@@ -75,10 +76,11 @@ export const videoDetail = async(req, res) => {
     // routes.js에서 videoDetail보면, url로부터 id 변수를 받는다. 이 변수는 req.params.id이므로, 이를 위 코드로 적은 것이다
     try {
         // populate함수는, 인자로 오는 objectId(Video.js파일 보면, creator는 id가 할당된다)에 대해, 그에 해당하는 전체 객체 (creator id가 들어가있는 전체)를 불러온다
-        const video = await Video.findById(id).populate("creator");
+        const video = await (await Video.findById(id).populate("creator")).populate("comments");
         res.render("videoDetail", { pageTitle: video.title, video });
         // 위에서 만든 video 변수 찾고나서, video변수를 videoDetail.pug 템플릿에 전달
     } catch (error) {
+        console.log(error);
         res.redirect(routes.home);
         // 에러가 뜨면, 에러 보고 home화면으로 redirect
     }
@@ -138,7 +140,7 @@ export const deleteVideo = async(req, res) => {
     res.redirect(routes.home)
 };
 
-// api와 관련된 함수 (apiRouter.js에 쓰인다)
+// api와 관련된 함수 (apiRouter.js에 쓰인다) => view 숫자 올리기 위한 함수
 export const postRegisterView = async(req, res) => {
     const { params: { id } } = req;
     // 누군가 postRegisterView 함수를 post하게 되는 url로 가면, id로 비디오를 찾고, 그 이후에 views 숫자를 1 늘려주고 저장한다. (videoDetail.pug를 보면, 각 video.views에 따라 자동으로 view 숫자가 보이게 된다)
@@ -152,5 +154,28 @@ export const postRegisterView = async(req, res) => {
     } finally {
         res.end();
         // 서버와의 통신을 종료함
+    }
+}
+
+// 댓글달기 기능을 위한 API용 함수
+export const postAddComment = async(req, res) => {
+    const {
+        params: { id },
+        body: { comment },
+        user
+    } = req;
+    try {
+        const video = await Video.findById(id);
+        const newComment = await Comment.create({
+            text: comment,
+            creator: user.id,
+        });
+        // video.comments는 Video.js에 정의되어 있다.
+        video.comments.push(newComment.id);
+        video.save();
+    } catch (error) {
+        res.status(400);
+    } finally {
+        res.end();
     }
 }
