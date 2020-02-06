@@ -147,6 +147,7 @@ export const postRegisterView = async(req, res) => {
     try {
         const video = await Video.findById(id);
         video.views += 1;
+        // save()나, create() 함수를 사용하면 DB에 저장이 됨!
         video.save();
         res.status(200);
     } catch (error) {

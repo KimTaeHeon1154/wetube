@@ -2,6 +2,24 @@ import axios from "axios";
 
 
 const addCommentForm = document.getElementById("jsAddComment");
+const commentList = document.getElementById("jsCommentList");
+const commentNumber = document.getElementById("jsCommentNumber");
+
+const increaseNumber = () => {
+    // videoDetail.pug 보면, commentNumber는 문자열이므로, 숫자로 바꿔주고 +1 해준다.
+    commentNumber.innerHTML = parseInt(commentNumber.innerHTML, 10) + 1
+}
+
+// 댓글 달면, 새로고침 전이라도 fake comment가 달려서 갯수가 한개 늘어나게 해주는 함수
+const addComment = (comment) => {
+    // html의 li, span을 변수로 불러옴.
+    const li = document.createElement("li");
+    const span = document.createElement("span");
+    span.innerHTML = comment;
+    li.appendChild(span);
+    commentList.prepend(li); //prepend는 가장 첫번째에 추가해준다
+    increaseNumber();
+}
 
 const sendComment = async(comment) => {
     const videoId = window.location.href.split("/videos/")[1];
@@ -15,7 +33,10 @@ const sendComment = async(comment) => {
         }
     });
     // axios이용해서 해당 url에 접속한 것처럼 한다. 그러면 자동으로 api가 돌아가겠지...
-    console.log(response);
+    // 정상적으로 댓글 달릴때만 addComment 함수 실행한다.
+    if (response.status === 200) {
+        addComment(comment);
+    }
 };
 
 const handleSubmit = event => {
